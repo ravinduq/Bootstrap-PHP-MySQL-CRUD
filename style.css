@@ -1,0 +1,8 @@
+.rsrshad{
+    box-shadow: 0px 0px 10px rgba(85, 85, 85, 0.692) !important;
+    border-radius:5px ;
+}
+.rsranim{
+    transition:0.5s!important;
+    border-radius: 20px;
+}
