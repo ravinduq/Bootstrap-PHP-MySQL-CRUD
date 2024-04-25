@@ -43,13 +43,7 @@ if (isset($_POST['register'])) {
         <div class="col-sm-auto m-auto">
 
             <?php if (isset($msg)) { ?>
-<<<<<<< HEAD
                 <div class="alert alert-warning" role="alert"><?php echo $msg; ?></div>
-=======
-                <div class="alert alert-warning" role="alert">
-                    <?php echo $msg; ?>
-                </div>
->>>>>>> 6020a22c9514538eee58c4e9467024b21e8f81de
             <?php } ?>
 
             <div class="rsrshad">
@@ -59,14 +53,9 @@ if (isset($_POST['register'])) {
                         <div class="form-group">
                             <div class="row">
                                 <div class="col">
-<<<<<<< HEAD
                                     <input type="text" id="uname" name="uname" class="form-control"
                                         placeholder="User Name" onInput="checkUsername()" required>
                                     <span id="check-username"></span>
-=======
-                                    <input type="text" id="fname" name="uname" class="form-control"
-                                        placeholder="User Name" required>
->>>>>>> 6020a22c9514538eee58c4e9467024b21e8f81de
                                 </div>
                                 <div class="col">
                                     <input type="date" id="bday" name="bday" class="form-control"
