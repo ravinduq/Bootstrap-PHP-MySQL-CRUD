@@ -1,73 +1,34 @@
-<?php require_once ("include/config.php"); 
-// if (isset($_POST['register'])) {
-//     $un = $_POST['uname'];
-//     $bday = $_POST['bday'];
-//     $email = $_POST['email'];
-//     $pass = $_POST['pass'];
-//     $cpass = $_POST['cpass'];
+<?php require_once ("include/config.php");
 
-//     if (($pass == $cpass) && (!$pass = "" && !$cpass = "")) {
+if (isset($_POST['register'])) {
+    $un = trim($_POST['uname']);
+    $bday = trim($_POST['bday']);
+    $email = trim($_POST['email']);
+    $pass = trim($_POST['pass']);
+    $cpass = trim($_POST['cpass']);
 
-//         $sql = "INSERT INTO user (uname,bday,email,pass) VALUES ('$un','$bday','$email','$cpass')";
-//         if (mysqli_query($conn, $sql)) {
-//             mysqli_close($conn);
-//             $msg = "You are successfuly registered";
-//         } else {
-//             $msg = "Error in inserting data " . "<br/>(" . $conn->error . ")";
-//         }
-//     } else {
-//         $msg = " Passwords is not matching..!! ";
-//     }
-// }
+    if ($pass!== $cpass) {
+        $msg = "Passwords do not match.";
+    } elseif (empty($pass) || empty($cpass)) {
+        $msg = "Please enter a password.";
+    } else {
+        // Encrypt the password before inserting
+        $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
 
-// MODIFIED BY AI
-session_start();
+        $sql = "INSERT INTO user (uname, bday, email, pass) VALUES (?,?,?,?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "ssss", $un, $bday, $email, $hashed_password);
+        mysqli_stmt_execute($stmt);
 
-// Function to validate user login
-function validateUserLogin($conn, $uname, $pword) {
-    $stmt = $conn->prepare("SELECT * FROM user WHERE (uname =? or email =?)");
-    $stmt->bind_param("ss", $uname, $uname);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-
-        // Verify the entered password against the hashed password
-        if (password_verify($pword, $row['pass'])) {
-            return $row;
+        if (mysqli_stmt_affected_rows($stmt) > 0) {
+            mysqli_close($conn);
+            $msg = "You are successfully registered.";
         } else {
-            return false;
+            $msg = "Error in inserting data: ". mysqli_error($conn);
         }
-    } else {
-        return false;
-    }
-
-    $stmt->close();
-}
-
-// Check if form is submitted
-if (isset($_POST['submit'])) {
-    $uname = $_POST['uname'];
-    $pword = $_POST['password'];
-
-    // Validate user login
-    $user = validateUserLogin($conn, $uname, $pword);
-
-    if ($user) {
-        $_SESSION['loggedin'] = true;
-        $_SESSION['user'] = $user['uname'];
-        header("Location:./index.php");
-        exit;
-    } else {
-        $msg = "Invalid username or password. Please try again..!";
     }
 }
-
-$conn->close();
-// MODIFIED BY AI
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

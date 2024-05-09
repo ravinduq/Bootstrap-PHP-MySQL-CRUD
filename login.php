@@ -1,54 +1,34 @@
 <?php require_once ("include/config.php"); 
 
-// OLD MANUAL METHOD CODED WITHOUT AI
-    // if (isset($_POST['submit'])) {
-    //     if (!$conn) {
-    //         $msg = "Connection failed: " . mysqli_connect_error();
-    //     } else {
-    //         $uname = $_POST['uname'];
-    //         $pword = $_POST['password'];
+session_start();
 
-    //         $sql = "SELECT * FROM user WHERE (uname = '$uname' or email = '$uname') and pass='$pword' ";
-    //         $result = mysqli_query($conn, $sql);
-    //         if (mysqli_num_rows($result) > 0) {
-    //             $row = mysqli_fetch_assoc($result);
-    //             session_start();
-    //             $_SESSION['loggedin'] = true;
-    //             $_SESSION['user'] = $row['uname'];
-    //             header("Location:./index.php");
-    //         } else {
-    //             $msg = "Please try again..!";
-    //         }
-    //     }
-    // }
-// OLD MANUAL METHOD CODED WITHOUT AI
+if (isset($_POST['submit'])) {
+    $uname = $_POST['uname'];
+    $pword = $_POST['password'];
 
-// AI CHATBOT RESULTS
-    session_start();
+    $stmt = $conn->prepare("SELECT * FROM user WHERE (uname =? or email =?)");
+    $stmt->bind_param("ss", $uname, $uname);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if (isset($_POST['submit'])) {
-        $uname = $_POST['uname'];
-        $pword = $_POST['password'];
-
-        $stmt = $conn->prepare("SELECT * FROM user WHERE (uname = ? or email = ?) and pass = ?");
-        $stmt->bind_param("sss", $uname, $uname, $pword);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $hashed_password = $row['pass']; // assuming 'pass' is the column for hashed password
+        if (password_verify($pword, $hashed_password)) {
             $_SESSION['loggedin'] = true;
             $_SESSION['user'] = $row['uname'];
             header("Location:./index.php");
         } else {
-            $msg = "Please try again..!";
+            $msg = "Invalid password. Please try again!";
         }
-
-        $stmt->close();
+    } else {
+        $msg = "Username or email not found. Please try again!";
     }
 
-    $conn->close();
-// AI CHATBOT RESULTS
+    $stmt->close();
+}
+
+$conn->close();
 
 ?>
 <!DOCTYPE html>
