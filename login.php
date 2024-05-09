@@ -1,25 +1,53 @@
 <?php require_once ("include/config.php"); ?>
 <?php
-if (isset($_POST['submit'])) {
-    if (!$conn) {
-        $msg = "Connection failed: " . mysqli_connect_error();
-    } else {
-        $uname = $_POST['uname'];
-        $pword = $_POST['password'];
+// if (isset($_POST['submit'])) {
+//     if (!$conn) {
+//         $msg = "Connection failed: " . mysqli_connect_error();
+//     } else {
+//         $uname = $_POST['uname'];
+//         $pword = $_POST['password'];
 
-        $sql = "SELECT * FROM user WHERE (uname = '$uname' or email = '$uname') and pass='$pword' ";
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            session_start();
-            $_SESSION['loggedin'] = true;
-            $_SESSION['user'] = $row['uname'];
-            header("Location:./index.php");
-        } else {
-            $msg = "Please try again..!";
-        }
+//         $sql = "SELECT * FROM user WHERE (uname = '$uname' or email = '$uname') and pass='$pword' ";
+//         $result = mysqli_query($conn, $sql);
+//         if (mysqli_num_rows($result) > 0) {
+//             $row = mysqli_fetch_assoc($result);
+//             session_start();
+//             $_SESSION['loggedin'] = true;
+//             $_SESSION['user'] = $row['uname'];
+//             header("Location:./index.php");
+//         } else {
+//             $msg = "Please try again..!";
+//         }
+//     }
+// }
+
+// AI CHATBOT RESULTS
+session_start();
+//require_once 'db_config.php';
+
+if (isset($_POST['submit'])) {
+    $uname = $_POST['uname'];
+    $pword = $_POST['password'];
+
+    $stmt = $conn->prepare("SELECT * FROM user WHERE (uname = ? or email = ?) and pass = ?");
+    $stmt->bind_param("sss", $uname, $uname, $pword);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $_SESSION['loggedin'] = true;
+        $_SESSION['user'] = $row['uname'];
+        header("Location:./index.php");
+    } else {
+        $msg = "Please try again..!";
     }
+
+    $stmt->close();
 }
+
+$conn->close();
+// AI CHATBOT RESULTS
 ?>
 <!DOCTYPE html>
 <html lang="en">
