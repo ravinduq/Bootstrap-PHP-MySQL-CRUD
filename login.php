@@ -1,5 +1,4 @@
-<?php require_once ("include/config.php"); ?>
-<?php
+<?php require_once ("include/config.php"); 
 
 // OLD MANUAL METHOD CODED WITHOUT AI
     // if (isset($_POST['submit'])) {
@@ -25,91 +24,32 @@
 // OLD MANUAL METHOD CODED WITHOUT AI
 
 // AI CHATBOT RESULTS
-    // session_start();
+    session_start();
 
-    // if (isset($_POST['submit'])) {
-    //     $uname = $_POST['uname'];
-    //     $pword = $_POST['password'];
+    if (isset($_POST['submit'])) {
+        $uname = $_POST['uname'];
+        $pword = $_POST['password'];
 
-    //     $stmt = $conn->prepare("SELECT * FROM user WHERE (uname = ? or email = ?) and pass = ?");
-    //     $stmt->bind_param("sss", $uname, $uname, $pword);
-    //     $stmt->execute();
-    //     $result = $stmt->get_result();
+        $stmt = $conn->prepare("SELECT * FROM user WHERE (uname = ? or email = ?) and pass = ?");
+        $stmt->bind_param("sss", $uname, $uname, $pword);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    //     if ($result->num_rows > 0) {
-    //         $row = $result->fetch_assoc();
-    //         $_SESSION['loggedin'] = true;
-    //         $_SESSION['user'] = $row['uname'];
-    //         header("Location:./index.php");
-    //     } else {
-    //         $msg = "Please try again..!";
-    //     }
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $_SESSION['loggedin'] = true;
+            $_SESSION['user'] = $row['uname'];
+            header("Location:./index.php");
+        } else {
+            $msg = "Please try again..!";
+        }
 
-    //     $stmt->close();
-    // }
+        $stmt->close();
+    }
 
-    // $conn->close();
+    $conn->close();
 // AI CHATBOT RESULTS
 
-// DECRYPT PASSWORD FROM DATABASE--- USED AI
-session_start();
-
-// Function to validate user login
-function validateUserLogin($conn, $uname, $pword)
-{
-    $stmt = $conn->prepare("SELECT * FROM user WHERE (uname =? or email =?) and pass =?");
-    $stmt->bind_param("sss", $uname, $uname, $pword);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        return $row;
-    } else {
-        return false;
-    }
-
-    $stmt->close();
-}
-
-// Check if form is submitted
-if (isset($_POST['submit'])) {
-    $uname = $_POST['uname'];
-    $pword = $_POST['password'];
-
-    // Validate user login
-    $user = validateUserLogin($conn, $uname, $pword);
-
-    if ($user) {
-        // Decrypt the password from the database
-        $decrypted_password = decrypt_password($user['pass']);
-
-        // Check if the decrypted password matches the entered password
-        if ($decrypted_password === $pword) {
-            $_SESSION['loggedin'] = true;
-            $_SESSION['user'] = $user['uname'];
-            header("Location:./index.php");
-            exit;
-        } else {
-            $msg = "Invalid password. Please try again..!";
-        }
-    } else {
-        $msg = "User not found. Please try again..!";
-    }
-}
-
-// Function to decrypt the password
-function decrypt_password($encrypted_password)
-{
-    // Implement your decryption logic here
-    // For example, you can use a library like OpenSSL to decrypt the password
-    // $decrypted_password = openssl_decrypt($encrypted_password, 'AES-256-CBC', 'your-secret-key');
-    // return $decrypted_password;
-}
-
-$conn->close();
-
-// DECRYPT PASSWORD FROM DATABASE--- USED AI
 ?>
 <!DOCTYPE html>
 <html lang="en">
