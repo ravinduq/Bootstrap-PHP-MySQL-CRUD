@@ -1,26 +1,53 @@
 <?php require_once ("include/config.php"); ?>
 <?php
+// if (isset($_POST['register'])) {
+//     $un = $_POST['uname'];
+//     $bday = $_POST['bday'];
+//     $email = $_POST['email'];
+//     $pass = $_POST['pass'];
+//     $cpass = $_POST['cpass'];
+
+//     if (($pass == $cpass) && (!$pass = "" && !$cpass = "")) {
+
+//         $sql = "INSERT INTO user (uname,bday,email,pass) VALUES ('$un','$bday','$email','$cpass')";
+//         if (mysqli_query($conn, $sql)) {
+//             mysqli_close($conn);
+//             $msg = "You are successfuly registered";
+//         } else {
+//             $msg = "Error in inserting data " . "<br/>(" . $conn->error . ")";
+//         }
+//     } else {
+//         $msg = " Passwords is not matching..!! ";
+//     }
+// }
 if (isset($_POST['register'])) {
-    $un = $_POST['uname'];
-    $bday = $_POST['bday'];
-    $email = $_POST['email'];
-    $pass = $_POST['pass'];
-    $cpass = $_POST['cpass'];
+    $un = trim($_POST['uname']);
+    $bday = trim($_POST['bday']);
+    $email = trim($_POST['email']);
+    $pass = trim($_POST['pass']);
+    $cpass = trim($_POST['cpass']);
 
-    if (($pass == $cpass) && (!$pass = "" && !$cpass = "")) {
-
-        $sql = "INSERT INTO user (uname,bday,email,pass) VALUES ('$un','$bday','$email','$cpass')";
-        if (mysqli_query($conn, $sql)) {
-            mysqli_close($conn);
-            $msg = "You are successfuly registered";
-        } else {
-            $msg = "Error in inserting data " . "<br/>(" . $conn->error . ")";
-        }
+    if ($pass!== $cpass) {
+        $msg = "Passwords do not match.";
+    } elseif (empty($pass) || empty($cpass)) {
+        $msg = "Please enter a password.";
     } else {
-        $msg = " Passwords is not matching..!! ";
+        // Encrypt the password before inserting
+        $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO user (uname, bday, email, pass) VALUES (?,?,?,?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "ssss", $un, $bday, $email, $hashed_password);
+        mysqli_stmt_execute($stmt);
+
+        if (mysqli_stmt_affected_rows($stmt) > 0) {
+            mysqli_close($conn);
+            $msg = "You are successfully registered.";
+        } else {
+            $msg = "Error in inserting data: ". mysqli_error($conn);
+        }
     }
 }
-
 ?>
 
 
