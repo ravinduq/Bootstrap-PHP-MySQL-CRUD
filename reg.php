@@ -1,5 +1,5 @@
 <?php require_once ("include/config.php");
-
+//DEFAULT ENCRYPTION METHOD
 if (isset($_POST['register'])) {
     $un = trim($_POST['uname']);
     $bday = trim($_POST['bday']);
@@ -28,6 +28,44 @@ if (isset($_POST['register'])) {
         }
     }
 }
+
+// ENCRYPTED WITH A KEYWORD
+// if (isset($_POST['register'])) {
+//     $un = trim($_POST['uname']);
+//     $bday = trim($_POST['bday']);
+//     $email = trim($_POST['email']);
+//     $pass = trim($_POST['pass']);
+//     $cpass = trim($_POST['cpass']);
+
+//     // Define the keyword for encryption
+//     $keyword = 'yword';
+
+//     if ($pass!== $cpass) {
+//         $msg = "Passwords do not match.";
+//     } elseif (empty($pass) || empty($cpass)) {
+//         $msg = "Please enter a password.";
+//     } else {
+//         // Encrypt the password using the keyword
+//         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('AES-256-CBC'));
+//         $encrypted_pass = openssl_encrypt($pass, 'AES-256-CBC', $keyword, 0, $iv);
+
+//         // Append the IV to the encrypted password
+//         $encrypted_pass.= $iv;
+
+//         $sql = "INSERT INTO user (uname, bday, email, pass) VALUES (?,?,?,?)";
+//         $stmt = mysqli_prepare($conn, $sql);
+//         $encryptedPasswordWithIv = $encrypted_pass;
+//         $stmt->bind_param("ssss", $un, $bday, $email, $encryptedPasswordWithIv);
+//         mysqli_stmt_execute($stmt);
+
+//         if (mysqli_stmt_affected_rows($stmt) > 0) {
+//             mysqli_close($conn);
+//             $msg = "You are successfully registered.";
+//         } else {
+//             $msg = "Error in inserting data: ". mysqli_error($conn);
+//         }
+//     }
+// }
 ?>
 
 <!DOCTYPE html>
