@@ -21,6 +21,7 @@
         /* Add fade out effect to welcome text */
         .welcome-text {
             animation: fadeOut 5s forwards;
+            animation-delay: 10s;
         }
 
         @keyframes fadeOut {
@@ -32,45 +33,48 @@
                 opacity: 0;
             }
         }
+
         table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-    tbody tr:hover {
-        background-color: #f5f5f5;
-    }
+        tbody tr:hover {
+            background-color: #f5f5f5;
+        }
 
-    th, td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
     </style>
 </head>
 
 <body class="bg-light">
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-    <a class="navbar-brand" href="#">Welcome</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="features.php">Features</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="about.php">About</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="include/logout.php">Logout</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <a class="navbar-brand" href="#">Welcome</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="features.php">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.php">About</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="include/logout.php">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
     <div class="container">
         <div class="row">
