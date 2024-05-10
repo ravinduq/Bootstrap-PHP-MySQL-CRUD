@@ -42,7 +42,7 @@ if (isset($_POST['register'])) {
     <title>signin</title>
 </head>
 
-<body class="bg-info">
+<body class="bg-white">
 
     <div class="row mt-5">
         <div class="col-sm-auto m-auto">

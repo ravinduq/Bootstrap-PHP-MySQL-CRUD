@@ -14,9 +14,9 @@
     <title>Welcome</title>
     <style>
         /* Add hover effect to card */
-        .card:hover {
+        /* .card:hover {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
+        } */
 
         /* Add fade out effect to welcome text */
         .welcome-text {
@@ -32,6 +32,20 @@
                 opacity: 0;
             }
         }
+        table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
     </style>
 </head>
 
@@ -42,6 +56,14 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="features.php">Features</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="about.php">About</a>
+            </li>
+        </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="include/logout.php">Logout</a>
