@@ -30,53 +30,6 @@ if (isset($_POST['submit'])) {
 
 $conn->close();
 
-// DECRYPT WITH A KEYWORD
-// session_start();
-// // Check connection
-// if ($conn->connect_error) {
-//     die("Connection failed: ". $conn->connect_error);
-// }
-
-// if (isset($_POST['submit'])) {
-//     $uname = $_POST['uname'];
-//     $pword = $_POST['password'];
-
-//     // Define the keyword for decryption
-//     $keyword = 'yword';
-
-//     $stmt = $conn->prepare("SELECT * FROM user WHERE (uname =? or email =?)");
-//     $stmt->bind_param("ss", $uname, $uname);
-//     $stmt->execute();
-//     $result = $stmt->get_result();
-
-//     if ($result->num_rows > 0) {
-//         $row = $result->fetch_assoc();
-//         $encrypted_pass = $row['pass'];
-
-//         // Extract the IV from the encrypted password
-//         $iv = substr($encrypted_pass, -16); // Assuming 16-byte IV
-
-//         // Extract the encrypted password without the IV
-//         $encrypted_pass = substr($encrypted_pass, 0, -16);
-
-//         // Decrypt the password with the IV
-//         $decrypted_pass = openssl_decrypt($encrypted_pass, 'AES-256-CBC', $keyword, 0, $iv);
-
-//         if ($decrypted_pass === $pword) {
-//             $_SESSION['loggedin'] = true;
-//             $_SESSION['user'] = $row['uname'];
-//             header("Location:./index.php");
-//         } else {
-//             $msg = "Invalid password. Please try again!";
-//         }
-//     } else {
-//         $msg = "Username or email not found. Please try again!";
-//     }
-
-//     $stmt->close();
-// }
-
-// $conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,6 +53,14 @@ $conn->close();
 </head>
 
 <body class="bg-white">
+
+<div class="wave-container">
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
 
     <?php if (isset($msg)) { ?>
         <div class="alert alert-warning" role="alert">
